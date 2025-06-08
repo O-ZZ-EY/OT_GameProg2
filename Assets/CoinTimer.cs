@@ -10,14 +10,13 @@ public class CoinTimer : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        InvokeRepeating("Spawn Coin", 0f, coinTimerInterval);
-
+        currentTimer = coinTimerInterval;
     }
 
     // Update is called once per frame
     private void Update()
     {
-        coinTimerInterval = Time.deltaTime;
+        currentTimer -= Time.deltaTime;    //difference between this and Time.fixedDeltaTime
         if (currentTimer <= 0f)
         {
             SpawnCoin();

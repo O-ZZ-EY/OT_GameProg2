@@ -42,8 +42,8 @@ public class Movementv2 : MonoBehaviour
     {
         if (collision.gameObject.tag == "Collectible")
         {
-            //AddScore();
-            //Destroy(collision.gameObject);
+            AddScore();
+            Destroy(collision.gameObject);
             Debug.Log("Player collider");
         }
     }
