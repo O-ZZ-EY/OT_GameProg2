@@ -1,18 +1,42 @@
 using UnityEngine;
+using TMPro;
 
 public class Movementv2 : MonoBehaviour
 {
+
+    public static Movementv2 instance;
     //declare all the variables you'll need for this component to work
     Rigidbody2D myRB;
     public float speed;
     Vector3 direction;
-
     float score;
+    public TMP_Text Score_Text;
+
+
+
+
+    [Header("Attack Vars")]
+    public Collider2D baseSwordSwing;
+    public bool attackRequest;
+    public bool currentlyAttacking;
+    public float attackTimer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        instance = this;
         score = 0f;
         myRB = GetComponent<Rigidbody2D>();
+        attackRequest = false;
+        currentlyAttacking = false;
+        attackTimer = 0f;
+    }
+
+    void Update()
+    {
+        if(Input.GetKeyUp(KeyCode.Mouse0) && !attackRequest)
+        {
+            attackRequest = true;
+        }
     }
 
     // run your component runtime logic in Update() and/or FixedUpdate()
@@ -20,6 +44,18 @@ public class Movementv2 : MonoBehaviour
     void FixedUpdate()
     {
         myRB.AddForce(Direction() * speed * Time.fixedDeltaTime);  
+
+        if(attackRequest && attackTimer < .5f)
+        {
+            attackTimer += Time.fixedDeltaTime;
+            baseSwordSwing.enabled = true;
+        }
+        else
+        {
+            baseSwordSwing.enabled = false;
+            attackTimer = 0f;
+            attackRequest = false;
+        }
     }
 
     //put your logic into discrete functions that do specific tasks
@@ -36,7 +72,6 @@ public class Movementv2 : MonoBehaviour
     }
 
 
-
     //collision code describes logic or computations that run when specific triggers or events happen
     void OnTriggerEnter2D(Collider2D collision)         
     {
@@ -50,6 +85,7 @@ public class Movementv2 : MonoBehaviour
 
     void AddScore()
     {
-        score++;     //What is ++ and what is it doing? is there something similar with -- or **
+        score++;    
+        Score_Text.text = "Score: " + score.ToString();
     }
 }
