@@ -61,5 +61,6 @@ public class GameManager : MonoBehaviour
             //e.SetActive(false);
         }
         Destroy(player);
+
     }
 }
